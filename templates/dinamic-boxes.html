@@ -1,0 +1,42 @@
+{% extends "layouts/index.html" %} {% block content %}
+
+<h1 class="display-4 fw-semibold">Hello World</h1>
+
+{% from "_macros.html" import render_field, render_input %}
+
+<hr />
+<div class="mt-5">
+    <form action="" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {{ render_field(form.quantity, class="form-control") }}
+        <div class="mt-5 text-center">
+            <button
+                type="submit"
+                class="btn btn-primary btn-lg px-5 rounded-pill fw-semibold"
+            >
+                ENVIAR
+            </button>
+        </div>
+    </form>
+    {% if form.quantity.data %}
+    <hr class="my-5">
+    <form action="/caculate-boxes" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <h5>Numbers</h5>
+            {% for i in range(0, form.quantity.data) %}
+                {{ render_input(name="numbers[]", type="number", placeholder="Number") }}
+            {% endfor %}
+        <div class="mt-5 text-center">
+            <button
+                type="submit"
+                class="btn btn-primary btn-lg px-5 rounded-pill fw-semibold"
+            >
+                ENVIAR
+            </button>
+        </div>
+
+    </form>
+    {% endif %}
+</div>
+
+{% endblock %}

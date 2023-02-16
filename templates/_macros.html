@@ -1,0 +1,18 @@
+{% macro render_input(name, placeholder, type, classes) %}
+
+<div class="mb-3">
+    <label for="{{ name }}" class="form-label">{{placeholder}}</label>
+    <input type="{{ type or 'text'}}" id="{{name}}" name="{{ name }}" class="{{ classes or 'form-control' }}" placeholder="{{ placeholder }}"> 
+</div>
+
+{% endmacro  %}
+
+{% macro render_field(field) %}
+
+ <div class="mb-3">
+    <label for="{{ name }}" class="form-label">{{placeholder}}</label>
+    {{ field.label }}
+    {{ field(**kwargs)|safe }}
+</div>   
+
+{% endmacro %}
