@@ -6,22 +6,36 @@
 
 <hr />
 <div class="mt-5">
-    <form action="" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        {{ render_field(form.id, class="form-control") }}
-        {{ render_field(form.name, class="form-control") }}
-        {{ render_field(form.lastname, class="form-control") }}
-        {{ render_field(form.email, class="form-control") }}
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="" method="POST" novalidate>
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                />
+                {{ render_field(form.id, class="form-control") }} {{
+                render_field(form.name, class="form-control") }} {{
+                render_field(form.lastname, class="form-control") }} {{
+                render_field(form.email, class="form-control") }}
 
-        <div class="mt-5 text-center">
-            <button
-                type="submit"
-                class="btn btn-primary btn-lg px-5 rounded-pill fw-semibold"
-            >
-                ENVIAR
-            </button>
+                <div class="mt-5 text-center">
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-lg px-5 rounded-pill fw-semibold"
+                    >
+                        ENVIAR
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="col-sm-6">
+            <div class="fs-4">
+                <p>Matriculla: {{ form.id.data }}</p>
+                <p>Nombre: {{ form.name.data }}</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

@@ -1,0 +1,4 @@
+correr run
+caminar walk
+OSO Bear
+azul BLUE
