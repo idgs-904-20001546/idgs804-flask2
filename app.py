@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, make_response, flash
 from translate import TranslateForm
 from flask_wtf.csrf import CSRFProtect
-from form import UserForm, LoginForm 
+from form import UserForm, LoginForm, ResistanceForm, COLORS, TOLERANCE
 from dinamic_box import DinamicBoxForm
 from translate_util import addTranslation, getTranslation
+from resistance import saveResistance, getResistance, calculate
 
 csrf = CSRFProtect()
 app = Flask(__name__)
@@ -106,6 +107,28 @@ def create_cookies():
     flash(f"Bienvenido {username}")
 
     return response
+
+@app.context_processor
+def utility_processor():
+    def getItemColor(item, position):
+        if position > 3:
+            return [t[1] for t in TOLERANCE if t[0] == item][0] or ''
+        return [color[0] for color in COLORS if color[position] == item][0] or 'white'
+    return dict(getItemColor=getItemColor)
+
+@app.get('/resistance')
+def resistance():
+    form = ResistanceForm()
+    data = [calculate(*resistance) for resistance in getResistance()] 
+
+    return render_template('resistance.html', form=form, data = data, colors = COLORS)
+
+@app.post('/resistance')
+def create_resistance():
+    form = ResistanceForm(request.form)
+    saveResistance(form.firstBand.data, form.secondBand.data, form.thirdBand.data, form.tolerance.data)
+    return redirect('/resistance')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
